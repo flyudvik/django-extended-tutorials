@@ -1,0 +1,32 @@
+{% extends 'admin/base_site.html' %}
+{% load crispy_forms_filters crispy_forms_tags %}
+
+{% block content %}
+    <h1>Quiz {{ quiz.title }}</h1>
+
+    <form action="" method="post">
+        <input type="submit">
+        {% csrf_token %}
+        {{ formset.management_form|crispy }}
+        {{ formset.non_form_errors }}
+
+        {% for question_form in formset.forms %}
+            <h3>Question #{{ forloop.counter }}</h3>
+            {{ question_form|crispy }}
+
+            {% if question_form.options %}
+                {{ question_form.options.management_form|crispy }}
+                {{ question_form.options.non_form_errors }}
+
+{#                TODO: add css styling for you #}
+                {% for option_form in question_form.options.forms %}
+                    {{ option_form|crispy }}
+                {% endfor %}
+            {% endif %}
+            <hr>
+{#            TODO: add js to add new questions/options #}
+        {% endfor %}
+        <input type="submit">
+    </form>
+
+{% endblock %}

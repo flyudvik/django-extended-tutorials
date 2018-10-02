@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  django:
+    build: .
+    image: neobis/blog
+    ports:
+      - 1234:8000
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    env_file:
+      - development.env
+
+  postgres:
+    image: postgres
+    env_file:
+      - development.env
